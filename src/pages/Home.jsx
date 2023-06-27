@@ -1,9 +1,10 @@
 import Background from "../components/Background";
+import StreamerUploadForm from "../components/StreamerUploadForm";
 
 const Home = () => {
   return (
     <>
-      <h1>Welcome Home</h1>
+      <StreamerUploadForm />
       <Background />
     </>
   );

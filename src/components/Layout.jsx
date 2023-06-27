@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <main className="text-slate-50 flex items-center justify-center">
+      <main className="flex flex-col items-center justify-center md:w-[65%] mx-auto text-slate-50">
         <Outlet />
       </main>
       <Footer />
