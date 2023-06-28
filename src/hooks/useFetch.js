@@ -21,6 +21,8 @@ const useFetch = (dataRoute) => {
         setFetchError(null);
       } catch (error) {
         if (!abortController.signal.aborted) {
+          //!!
+          console.log(error);
           setFetchError("Something went wrong");
           setData([]);
         }

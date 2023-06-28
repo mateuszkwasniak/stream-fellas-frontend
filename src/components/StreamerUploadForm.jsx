@@ -128,7 +128,7 @@ export default function StreamerUploadForm() {
 
   return (
     <form
-      className="p-12 sticky top-28 flex w-[500px] flex-col border border-fuchsia-100 rounded-md shadow-lg bg-fuchsia-50 text-slate-800"
+      className="p-12 sticky top-32 flex w-[500px] flex-col border border-fuchsia-100 rounded-md shadow-lg bg-fuchsia-50 text-slate-800"
       onSubmit={handleFormSubmission}
     >
       <h2 className="md:text-3xl font-semibold text-slate-600 mb-10">

@@ -1,5 +1,13 @@
+import StreamerProfile from "../components/StreamerProfile";
+import Background from "../components/Background";
+
 const StreamerPage = () => {
-  return <div>Streamer details</div>;
+  return (
+    <>
+      <StreamerProfile />
+      <Background />
+    </>
+  );
 };
 
 export default StreamerPage;

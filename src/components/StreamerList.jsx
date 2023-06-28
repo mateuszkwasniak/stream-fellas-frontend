@@ -1,4 +1,4 @@
-import Streamer from "./Streamer";
+import Streamer from "./StreamerCard";
 import Spinner from "./Spinner";
 import { useContext } from "react";
 import StreamersContext from "../context/StreamersProvider";
@@ -11,7 +11,7 @@ export default function StreamerList() {
   if (isLoading) {
     content = <Spinner />;
   } else if (fetchError) {
-    content = <p className="text-slate-800">{fetchError}</p>;
+    content = <p className="text-slate-50 text-2xl">{fetchError}</p>;
   } else {
     content = (
       <ul className="mb-10 flex flex-col items-center gap-8">
@@ -20,7 +20,9 @@ export default function StreamerList() {
             <Streamer key={streamer._id} data={streamer} />
           ))
         ) : (
-          <p className="text-slate-800">No streamers have been uploaded yet</p>
+          <p className="text-slate-50 text-2xl">
+            No streamers have been uploaded yet
+          </p>
         )}
       </ul>
     );

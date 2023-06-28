@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <main className="flex items-start justify-between md:w-[65%] mx-auto pt-28 text-slate-50">
+      <main className="flex items-start justify-between md:w-[65%] mx-auto pt-24 text-slate-50">
         <Outlet />
       </main>
     </>

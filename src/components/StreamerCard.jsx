@@ -6,7 +6,6 @@ import {
 
 /* eslint-disable react/prop-types */
 export default function Streamer({ data }) {
-    
   const navigate = useNavigate();
 
   return (
@@ -18,7 +17,7 @@ export default function Streamer({ data }) {
       <hr className="border-slate-300 w-[65%] self-center" />
 
       <div className="flex items-center justify-between mt-auto">
-        <div className="flex gap-5">
+        <div className="flex gap-10">
           <div className="flex gap-2 items-center">
             <button className="text-4xl">
               <HiOutlineArrowUpCircle />
@@ -32,7 +31,7 @@ export default function Streamer({ data }) {
             <span>{data.upvotes}</span>
           </div>
         </div>
-        <div className="w-14 h-10">
+        <div className="w-10 h-6">
           <img
             src={
               new URL(
