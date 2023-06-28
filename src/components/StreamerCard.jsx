@@ -28,7 +28,7 @@ export default function Streamer({ data }) {
             <button className="text-4xl">
               <HiOutlineArrowDownCircle />
             </button>
-            <span>{data.upvotes}</span>
+            <span>{data.downvotes}</span>
           </div>
         </div>
         <div className="w-10 h-6">

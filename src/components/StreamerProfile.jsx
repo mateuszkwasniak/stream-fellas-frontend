@@ -15,25 +15,45 @@ export default function StreamerProfile() {
   const [streamer, setStreamer] = useState({});
 
   //pobrac z localstorage stan zaglosowania dla danego streamera??
-  const [marked, setMarked] = useState({
-    vote: null,
-    id: streamerId,
-  });
+  const [marked, setMarked] = useState(
+    localStorage.getItem(streamerId) || null
+  );
 
   useEffect(() => {
     setStreamer(data);
   }, [data]);
 
   const voteClickHandler = async (vote) => {
-    setMarked((prev) => ({ ...prev, vote }));
+    let operation;
+
+    if (marked === "upvote" && vote === "upvote") {
+      operation = "resetUpvote";
+      setMarked(null);
+      localStorage.setItem(streamerId, null);
+    } else if (marked === "upvote" && vote === "downvote") {
+      operation = "toggleNeg";
+      setMarked(vote);
+      localStorage.setItem(streamerId, vote);
+    } else if (marked === "downvote" && vote === "downvote") {
+      operation = "resetDownvote";
+      setMarked(null);
+      localStorage.setItem(streamerId, null);
+    } else if (marked === "downvote" && vote === "upvote") {
+      operation = "togglePos";
+      setMarked(vote);
+      localStorage.setItem(streamerId, vote);
+    } else {
+      operation = vote;
+      setMarked(vote);
+      localStorage.setItem(streamerId, vote);
+    }
 
     try {
       const response = await axios.put(
         `/streamers/${streamerId}/vote`,
-        JSON.stringify({ type: vote })
+        JSON.stringify({ type: operation })
       );
 
-      console.log(response?.data);
       setStreamer(response?.data);
     } catch (error) {
       console.log(error);
@@ -70,25 +90,27 @@ export default function StreamerProfile() {
           <h4 className="text-md text-slate-500 mb-3">About</h4>
           <p className="break-words mb-4">{streamer?.description}</p>
           <h4 className="text-md text-slate-500 mb-3">Statistics</h4>
-          <p>Upvotes: {streamer?.upvotes}</p>
-          <p>Downvotes: {streamer?.downvotes}</p>
+          <p>
+            Upvotes: <b className="text-slate-500">{streamer?.upvotes}</b>
+          </p>
+          <p>
+            Downvotes: <b className="text-slate-500">{streamer?.downvotes}</b>
+          </p>
         </div>
         <div className="flex gap-5 items-center">
           <button
             className={`p-4 lg:w-32 font-semibold border rounded-md transform duration-300 hover:bg-purple-500 hover:text-slate-50 hover:shadow-md ${
-              marked.vote === "upvote" && "bg-purple-500 text-slate-50"
+              marked === "upvote" && "bg-purple-500 text-slate-50"
             }`}
             onClick={() => voteClickHandler("upvote")}
-            disabled={marked.vote === "upvote"}
           >
             UPVOTE
           </button>
           <button
             className={`p-4 lg:w-32 font-semibold border rounded-md transform duration-300 hover:bg-slate-600 hover:text-slate-50 hover:shadow-md ${
-              marked.vote === "downvote" && "bg-slate-600 text-slate-50"
+              marked === "downvote" && "bg-slate-600 text-slate-50"
             }`}
             onClick={() => voteClickHandler("downvote")}
-            disabled={marked.vote === "downvote"}
           >
             DOWNVOTE
           </button>
