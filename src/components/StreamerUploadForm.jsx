@@ -4,6 +4,8 @@ import { MdOutlineWarningAmber } from "react-icons/md";
 import { MdCheckCircleOutline } from "react-icons/md";
 import Spinner from "./Spinner";
 import { streamingPlatforms } from "../data/streamingPlatforms.js";
+import { useContext } from "react";
+import StreamersContext from "../context/StreamersProvider";
 
 const initInputsValidState = {
   name: false,
@@ -30,6 +32,7 @@ export default function StreamerUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const { setStreamers } = useContext(StreamersContext);
 
   const handleInputChange = (e) =>
     setStreamer((prev) => ({
@@ -55,7 +58,7 @@ export default function StreamerUploadForm() {
     //tutaj request za pomoca axios...
     try {
       const response = await axios.post("/streamers", JSON.stringify(streamer));
-      console.log(response?.data);
+      setStreamers(response?.data);
       setStreamer(initStreamerState);
       setSuccess(true);
     } catch (error) {
@@ -67,10 +70,6 @@ export default function StreamerUploadForm() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log(streamer);
-  }, [streamer]);
 
   useEffect(() => {
     !descriptionFocus &&
@@ -129,10 +128,10 @@ export default function StreamerUploadForm() {
 
   return (
     <form
-      className="p-14 flex w-[500px] flex-col border border-fuchsia-100 rounded-md shadow-lg bg-fuchsia-50 text-slate-800"
+      className="p-12 sticky top-28 flex w-[500px] flex-col border border-fuchsia-100 rounded-md shadow-lg bg-fuchsia-50 text-slate-800"
       onSubmit={handleFormSubmission}
     >
-      <h2 className="md:text-3xl font-semibold text-slate-600 mb-12">
+      <h2 className="md:text-3xl font-semibold text-slate-600 mb-10">
         Create your Streamer
       </h2>
       <label htmlFor="name" className="mb-2">
@@ -144,7 +143,7 @@ export default function StreamerUploadForm() {
         id="name"
         name="name"
         placeholder="Kyle Jackson"
-        maxLength={30}
+        maxLength={24}
         className={`${
           invalidInputs.name && streamer.name && "outline-red-600"
         } p-3 rounded-md outline-none focus:outline-fuchsia-300 border border-fuchsia-100 ease-in-out duration-300`}
@@ -169,7 +168,7 @@ export default function StreamerUploadForm() {
         <p
           className={`${
             !nameFocus && "absolute left-[-9999px] opacity-0"
-          } flex gap-2 items-center mt-2 text-sm text-slate-600 ease-in-out duration-300 opacity-1`}
+          } flex gap-2 items-center mt-2 text-xs text-slate-600 ease-in-out duration-300 opacity-1`}
         >
           4 to 24 characters, starting with a letter; letters, numbers,
           underscores, hyphens allowed.
@@ -211,7 +210,7 @@ export default function StreamerUploadForm() {
         <p
           className={`${
             !descriptionFocus && "absolute left-[-9999px] opacity-0"
-          } flex gap-2 items-center mt-2 text-sm text-slate-600 ease-in-out duration-300 opacity-1`}
+          } flex gap-2 items-center mt-2 text-xs text-slate-600 ease-in-out duration-300 opacity-1`}
         >
           20-300 characters.
         </p>
@@ -255,7 +254,7 @@ export default function StreamerUploadForm() {
       <button
         type="submit"
         disabled={!allInputsValid || isLoading ? true : false}
-        className={`w-full h-10 text-xl border-fuchsia-800 rounded-lg bg-fuchsia-700 text-white font-semibold px-5 py-2 flex items-center justify-center  hover:bg-fuchsia-600 duration-700 ease-in-out shadow-md mt-14 cursor-pointer disabled:bg-slate-500 disabled:cursor-not-allowed`}
+        className={`w-full h-10 text-xl border-fuchsia-800 rounded-lg bg-fuchsia-700 text-white font-semibold mt-9 px-5 py-2 flex items-center justify-center  hover:bg-fuchsia-600 duration-700 ease-in-out shadow-md  cursor-pointer disabled:bg-slate-500 disabled:cursor-not-allowed`}
       >
         {isLoading ? <Spinner /> : "Submit"}
       </button>
