@@ -11,7 +11,11 @@ export default function StreamerList() {
   if (isLoading) {
     content = <Spinner />;
   } else if (fetchError) {
-    content = <p className="text-slate-50 text-2xl">{fetchError}</p>;
+    content = (
+      <p className="text-slate-50 text-2xl">
+        Unable to fetch streamers list, please try again later
+      </p>
+    );
   } else {
     content = (
       <ul className="mb-10 flex flex-col items-center gap-8">

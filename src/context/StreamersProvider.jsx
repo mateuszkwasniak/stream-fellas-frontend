@@ -1,18 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
+import { sortStreamers } from "../utils/sortStreamers";
 import * as Realm from "realm-web";
 
 const StreamersContext = createContext({});
 
-const app = new Realm.App({ id: "streamers-mongo-app-umdwq" });
+const app = new Realm.App({ id: import.meta.env.VITE_MONGO_APP_ID });
 
 export const StreamersProvider = ({ children }) => {
   const { data, fetchError, isLoading } = useFetch("/streamers");
-
   const [streamers, setStreamers] = useState([]);
-  const [user, setUser] = useState([]);
-  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     setStreamers(data);
@@ -20,27 +18,44 @@ export const StreamersProvider = ({ children }) => {
 
   useEffect(() => {
     const login = async () => {
-      // Authenticate anonymously
-      const user = await app.logIn(Realm.Credentials.anonymous());
-      setUser(user);
-      console.log(user);
-      console.log("Connected");
-
-      // Connect to the database
+      await app.logIn(Realm.Credentials.anonymous());
       const mongodb = app.currentUser.mongoClient("mongodb-atlas");
       const collection = mongodb.db("test").collection("streamers");
 
-      // Everytime a change happens in the stream, add it to the list of events
       for await (const change of collection.watch()) {
-        setEvents((events) => [...events, change]);
+        switch (change.operationType) {
+          case "update": {
+            const updatedStreamerId = change?.fullDocument?._id.toString();
+
+            setStreamers((prev) => {
+              const filteredStreamers = prev.filter(
+                (streamer) => streamer._id !== updatedStreamerId
+              );
+              return sortStreamers([
+                ...filteredStreamers,
+                { ...change?.fullDocument, _id: updatedStreamerId },
+              ]);
+            });
+            break;
+          }
+
+          case "insert": {
+            console.log(change);
+            const newStreamerId = change?.fullDocument?._id.toString();
+            const newStreamer = { ...change?.fullDocument, _id: newStreamerId };
+            setStreamers((prev) => sortStreamers([...prev, newStreamer]));
+            break;
+          }
+        }
       }
     };
-    login();
-  }, []);
 
-  useEffect(() => {
-    console.log(events);
-  }, [events]);
+    try {
+      login();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <StreamersContext.Provider

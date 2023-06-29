@@ -55,10 +55,10 @@ export default function StreamerUploadForm() {
 
     setIsLoading(true);
 
-    //tutaj request za pomoca axios...
     try {
-      const response = await axios.post("/streamers", JSON.stringify(streamer));
-      setStreamers(response?.data);
+      await axios.post("/streamers", JSON.stringify(streamer));
+      // const response = await axios.post("/streamers", JSON.stringify(streamer));
+      // setStreamers(response?.data);
       setStreamer(initStreamerState);
       setSuccess(true);
     } catch (error) {

@@ -24,6 +24,7 @@ export default function StreamerProfile() {
   }, [data]);
 
   const voteClickHandler = async (vote) => {
+    const previousOperation = marked;
     let operation;
 
     if (marked === "upvote" && vote === "upvote") {
@@ -56,7 +57,8 @@ export default function StreamerProfile() {
 
       setStreamer(response?.data);
     } catch (error) {
-      console.log(error);
+      setMarked(previousOperation);
+      localStorage.setItem(streamerId, previousOperation);
     }
   };
 
