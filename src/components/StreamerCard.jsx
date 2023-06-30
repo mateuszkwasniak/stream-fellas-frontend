@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  HiOutlineArrowUpCircle,
-  HiOutlineArrowDownCircle,
-} from "react-icons/hi2";
+
+import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 
 import PropTypes from "prop-types";
 
@@ -31,16 +29,12 @@ export default function Streamer({ data }) {
       <hr className="border-slate-300 w-[65%] mb-4 self-center" />
 
       <div className="flex items-center justify-center gap-4 flex-wrap mt-auto">
-        <div className="flex gap-1 md:gap-2 items-center">
-          <button className="text-2xl lg:text-4xl">
-            <HiOutlineArrowUpCircle />
-          </button>
+        <div className="flex gap-1 items-center">
+          <BiUpArrowAlt className="text-2xl lg:text-4xl" />
           <span>{data.upvotes}</span>
         </div>
-        <div className="flex gap-2 items-center">
-          <button className="text-2xl lg:text-4xl">
-            <HiOutlineArrowDownCircle />
-          </button>
+        <div className="flex gap-1 items-center">
+          <BiDownArrowAlt className="text-2xl lg:text-4xl" />
           <span>{data.downvotes}</span>
         </div>
       </div>

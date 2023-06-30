@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import FormContext from "../context/FormProvider";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -13,6 +13,10 @@ const Navbar = () => {
   const scrolled = useScroll(50);
 
   const { showForm, setShowForm } = useContext(FormContext);
+
+  useEffect(() => {
+    showForm && window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [showForm]);
 
   return (
     <nav

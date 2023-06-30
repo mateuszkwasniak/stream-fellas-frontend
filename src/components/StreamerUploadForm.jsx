@@ -125,14 +125,14 @@ export default function StreamerUploadForm() {
   return (
     <form
       className={`${
-        !showForm ? "absolute left-[-9999px]" : "fixed top-32"
-      } p-12 md:sticky md:top-32 flex w-[400px] md:w-[400px] lg:w-[500px] flex-col border border-purple-100 rounded-md shadow-lg bg-purple-50 text-slate-800 z-40`}
+        !showForm ? "absolute left-[-9999px]" : "top-26"
+      } p-6 md:p-12 md:sticky md:top-32 flex w-[95%] h-[fit] md:w-[400px] lg:w-[500px] flex-col border border-purple-100 rounded-md shadow-lg bg-purple-50 text-slate-800 z-40`}
       onSubmit={handleFormSubmission}
     >
-      <h2 className="text-2xl md:text-3xl font-semibold text-slate-500 mb-10">
+      <h2 className="text-xl md:text-3xl font-semibold text-slate-500 mb-5 md:mb-10">
         Create your Streamer
       </h2>
-      <label htmlFor="name" className="mb-2">
+      <label htmlFor="name" className="mb-2 text-sm md:text-base">
         Name
       </label>
       <input
@@ -173,7 +173,7 @@ export default function StreamerUploadForm() {
         </p>
       </div>
 
-      <label htmlFor="description" className="mb-2 mt-8">
+      <label htmlFor="description" className="mb-2 mt-8 text-sm md:text-base">
         Description
       </label>
       <textarea
@@ -214,7 +214,7 @@ export default function StreamerUploadForm() {
         </p>
       </div>
 
-      <label htmlFor="platform" className="mb-2 mt-8">
+      <label htmlFor="platform" className="mb-2 mt-8 text-sm md:text-base">
         Platform
       </label>
       <select
