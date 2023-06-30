@@ -20,7 +20,7 @@ export const StreamersProvider = ({ children }) => {
     const login = async () => {
       await app.logIn(Realm.Credentials.anonymous());
       const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-      const collection = mongodb.db("test").collection("streamers");
+      const collection = mongodb.db(import.meta.env.VITE_MONGO_APP_DB).collection(import.meta.env.VITE_MONGO_APP_COLLECTION);
 
       for await (const change of collection.watch()) {
         switch (change.operationType) {
