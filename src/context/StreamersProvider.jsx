@@ -58,9 +58,7 @@ export const StreamersProvider = ({ children }) => {
   }, []);
 
   return (
-    <StreamersContext.Provider
-      value={{ streamers, setStreamers, fetchError, isLoading }}
-    >
+    <StreamersContext.Provider value={{ streamers, fetchError, isLoading }}>
       {children}
     </StreamersContext.Provider>
   );

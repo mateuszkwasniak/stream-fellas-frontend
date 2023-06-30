@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { useContext } from "react";
+import FormContext from "../context/FormProvider";
 import axios from "../api/axios";
 import { MdOutlineWarningAmber } from "react-icons/md";
 import { MdCheckCircleOutline } from "react-icons/md";
 import Spinner from "./Spinner";
-import { streamingPlatforms } from "../data/streamingPlatforms.js";
-import { useContext } from "react";
-import StreamersContext from "../context/StreamersProvider";
+import { streamingPlatforms } from "../utils/data/streamingPlatforms.js";
 
 const initInputsValidState = {
   name: false,
@@ -32,7 +32,7 @@ export default function StreamerUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const { setStreamers } = useContext(StreamersContext);
+  const { showForm, setShowForm } = useContext(FormContext);
 
   const handleInputChange = (e) =>
     setStreamer((prev) => ({
@@ -57,8 +57,6 @@ export default function StreamerUploadForm() {
 
     try {
       await axios.post("/streamers", JSON.stringify(streamer));
-      // const response = await axios.post("/streamers", JSON.stringify(streamer));
-      // setStreamers(response?.data);
       setStreamer(initStreamerState);
       setSuccess(true);
     } catch (error) {
@@ -92,24 +90,22 @@ export default function StreamerUploadForm() {
     if (success) {
       timeout = setTimeout(() => {
         setSuccess(false);
+        setShowForm(false);
       }, 3000);
     }
     return () => clearTimeout(timeout);
-  }, [success]);
+  }, [success, setShowForm]);
 
-  //Validity:
-  //name
   useEffect(() => {
     const valid = NAME_REGEX.test(streamer.name);
     setInvalidInputs((prev) => ({ ...prev, name: !valid }));
   }, [streamer.name]);
-  //desc
+
   useEffect(() => {
     const valid = DESC_REGEX.test(streamer.description);
     setInvalidInputs((prev) => ({ ...prev, description: !valid }));
   }, [streamer.description]);
 
-  //platform
   useEffect(() => {
     const valid = streamingPlatforms.includes(streamer.platform);
     setInvalidInputs((prev) => ({ ...prev, platform: !valid }));
@@ -128,10 +124,12 @@ export default function StreamerUploadForm() {
 
   return (
     <form
-      className="p-12 sticky top-32 flex w-[500px] flex-col border border-fuchsia-100 rounded-md shadow-lg bg-fuchsia-50 text-slate-800"
+      className={`${
+        !showForm ? "absolute left-[-9999px]" : "fixed top-32"
+      } p-12 md:sticky md:top-32 flex w-[400px] md:w-[400px] lg:w-[500px] flex-col border border-purple-100 rounded-md shadow-lg bg-purple-50 text-slate-800 z-40`}
       onSubmit={handleFormSubmission}
     >
-      <h2 className="md:text-3xl font-semibold text-slate-600 mb-10">
+      <h2 className="text-2xl md:text-3xl font-semibold text-slate-500 mb-10">
         Create your Streamer
       </h2>
       <label htmlFor="name" className="mb-2">
@@ -146,7 +144,7 @@ export default function StreamerUploadForm() {
         maxLength={24}
         className={`${
           invalidInputs.name && streamer.name && "outline-red-600"
-        } p-3 rounded-md outline-none focus:outline-fuchsia-300 border border-fuchsia-100 ease-in-out duration-300`}
+        } p-3 rounded-md outline-none focus:outline-purple-300 border border-fuchsia-100 ease-in-out duration-300`}
         value={streamer.name}
         onChange={handleInputChange}
         onFocus={() => setNameFocus(true)}
@@ -188,7 +186,7 @@ export default function StreamerUploadForm() {
         maxLength={300}
         className={`${
           invalidInputs.description && streamer.description && "outline-red-600"
-        } p-3 rounded-md outline-none focus:outline-fuchsia-300 border border-fuchsia-100 ease-in-out duration-300 resize-none`}
+        } p-3 rounded-md outline-none focus:outline-purple-300 border border-fuchsia-100 ease-in-out duration-300 resize-none`}
         value={streamer.description}
         onChange={handleInputChange}
         onFocus={() => setDescriptionFocus(true)}
@@ -222,7 +220,7 @@ export default function StreamerUploadForm() {
       <select
         className={`${
           invalidInputs.platform && streamer.platform && "outline-red-600"
-        } p-3 rounded-md outline-none focus:outline-fuchsia-300 border border-fuchsia-100 ease-in-out duration-300 bg-white`}
+        } p-3 rounded-md outline-none focus:outline-purple-300 border border-fuchsia-100 ease-in-out duration-300 bg-white`}
         required
         name="platform"
         id="platform"

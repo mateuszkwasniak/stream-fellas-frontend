@@ -6,6 +6,7 @@ export const useScroll = (distance) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
+
       if (scrollPos > distance) {
         setScrolled(true);
       } else {

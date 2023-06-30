@@ -14,7 +14,6 @@ export default function StreamerProfile() {
   const { data, fetchError, isLoading } = useFetch(`/streamer/${streamerId}`);
   const [streamer, setStreamer] = useState({});
 
-  //pobrac z localstorage stan zaglosowania dla danego streamera??
   const [marked, setMarked] = useState(
     localStorage.getItem(streamerId) || null
   );
@@ -75,15 +74,15 @@ export default function StreamerProfile() {
     );
   } else {
     content = (
-      <section className="w-full mx-auto flex flex-col items-center text-slate-800 mb-10">
-        <div className="md:w-80 md:h-80 mb-5 rounded-full overflow-hidden flex items-center justify-center shadow-md">
+      <section className="w-full mx-auto flex flex-col items-center text-slate-800 p-4 mb-10 ">
+        <div className="w-64 h-64 md:h-72 md:w-72 mb-5 rounded-full overflow-hidden flex items-center justify-center shadow-md">
           <img
             src={profilePic}
             alt="Profile"
             className="w-full h-full object-cover"
           />
         </div>
-        <h1 className="text-3xl mb-2 font-bold">{streamer?.name}</h1>
+        <h3 className="text-3xl mb-2 font-bold">{streamer?.name}</h3>
         <p className="text-md text-slate-500 mb-3">
           Streamer on <b>{streamer?.platform}</b>
         </p>

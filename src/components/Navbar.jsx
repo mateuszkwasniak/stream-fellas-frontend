@@ -1,23 +1,44 @@
+import { useContext } from "react";
+import FormContext from "../context/FormProvider";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useScroll } from "../hooks/useScroll";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineClose } from "react-icons/md";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const scrolled = useScroll(50);
+
+  const { showForm, setShowForm } = useContext(FormContext);
 
   return (
     <nav
       className={`w-full z-50 fixed top-0 block transition duration-300 ${
-        scrolled && "bg-fuchsia-100 shadow-xl"
+        scrolled && "bg-purple-800 shadow-xl"
       }`}
     >
-      <div className="text-slate-50 md:w-[65%] mx-auto md:py-5 flex items-center justify-between">
+      <div className="text-slate-50 w-[90%] md:w-[80%] lg:w-[55%] mx-auto py-3 md:py-5 flex items-center justify-between">
         <span
           onClick={() => navigate("/")}
-          className="cursor-pointer font-bangers z-10 text-purple-900 md:text-4xl transition duration-300 hover:opacity-80"
+          className="cursor-pointer font-roboto font-bold text-slate-50 text-3xl md:text-5xl transition duration-300 hover:opacity-80  z-10"
         >
           Stream Fellas
         </span>
+        {!location.pathname.includes("/streamer") && (
+          <button
+            className="md:absolute md:left-[-9999px]"
+            onClick={() => setShowForm((prev) => !prev)}
+          >
+            {showForm ? (
+              <MdOutlineClose className="w-10 h-10 text-white" />
+            ) : (
+              <GiHamburgerMenu className="w-10 h-10 text-white" />
+            )}
+          </button>
+        )}
       </div>
     </nav>
   );

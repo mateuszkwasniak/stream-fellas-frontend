@@ -32,5 +32,5 @@ export default function StreamerList() {
     );
   }
 
-  return <section className="w-[50%]">{content}</section>;
+  return <section className="w-[80%] md:w-[40%] lg:w-[30%]">{content}</section>;
 }

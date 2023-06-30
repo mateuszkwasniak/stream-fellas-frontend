@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        bangers: ["Bangers", "cursive"],
+        roboto: ["Roboto", "sans-serif"],
       },
       rotate: {
         15: "15deg",

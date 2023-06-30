@@ -1,21 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import Background from "../components/Background";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
-
   return (
     <>
-      <h1 className="text-slate-800">
-        You seem to have drifted too far, streaming enthusiast...
+      <h1 className="text-white text-2xl">
+        You seem to have drifted too far, streaming enthusiast. There&apos;s
+        nothing interesting here.
       </h1>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Flow home
-      </button>
       <Background />
     </>
   );
