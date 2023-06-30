@@ -20,7 +20,7 @@ const initStreamerState = {
 };
 
 const NAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const DESC_REGEX = /^(?! )(?!\s)(?!.*\s$)(.{20,300})(?<!\s)(?! )$/;
+const DESC_REGEX = /^(?![\s\S]{301})[^\s][\s\S]{18,298}[^\s]$/;
 
 export default function StreamerUploadForm() {
   const [streamer, setStreamer] = useState(initStreamerState);
